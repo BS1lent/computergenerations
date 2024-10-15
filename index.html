@@ -3,16 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Определение поколения ЭВМ</title>
+  <title>Слайдер примеров ЭВМ</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Определение поколения ЭВМ</h1>
-        <label for="model">Модель компьютера:</label>
-        <input type="text" id="model">
-        <button onclick="prepareResultDiv();checkModel();showIBMInfo()">Определить поколение</button>
+  <div class="slider-container">
+    <div class="slider">
+      <div class="slide">
+        <img src="images/eniac.jpeg" alt="ENIAC">
+        <p>ENIAC - Первое поколение</p>
+      </div>
+      <div class="slide">
+        <img src="images/ibm1401.jpg" alt="IBM 1401">
+        <p>IBM 1401 - Второе поколение</p>
+      </div>
+      <div class="slide">
+        <img src="images/ibm360.jpg" alt="IBM 360">
+        <p>IBM 360 - Третье поколение</p>
+      </div>
+      <div class="slide">
+        <img src="images/appleii.jpg" alt="Apple II">
+        <p>Apple II - Четвертое поколение</p>
+      </div>
+      <div class="slide">
+        <img src="images/ibm_pc_at.jpg" alt="IBM PC/AT">
+        <p>IBM PC/AT - Пятое поколение</p>
+      </div>
     </div>
-    <script src="script.js"></script>
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
