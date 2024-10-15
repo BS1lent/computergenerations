@@ -4,10 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Слайдер примеров ЭВМ</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-  <div class="slider-container">
+  <div class="captcha-container">
+    <p>Выберите все изображения с кошками:</p>
+    <div class="images">
+        <!-- Изображения будут добавлены здесь с помощью JavaScript -->
+    </div>
+    <button onclick="validateCaptcha()">Проверить</button>
+    <div id="message" style="color: rgb(0, 0, 0); display: none; font-weight: bold;">Попробуйте снова.</div>
+  </div>
+  
+  <div class="slider-container" style="display: none;">
     <div class="slider">
       <div class="slide">
         <img src="images/eniac.jpeg" alt="ENIAC">
@@ -33,6 +42,7 @@
     <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
     <button class="next" onclick="moveSlide(1)">&#10095;</button>
   </div>
-  <script src="script.js"></script>
+  
+  <script src="scripts/script.js"></script>
 </body>
 </html>

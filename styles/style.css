@@ -8,6 +8,27 @@ body {
   margin: 0;
 }
 
+
+.captcha-container .images img {
+  width: 100px; /* Ширина изображения */
+  height: 100px; /* Высота изображения */
+  margin: 5px; /* Отступы между изображениями */
+  border: 2px solid #ccc; /* Серая рамка вокруг изображения */
+  border-radius: 8px; /* Скругленные углы */
+  cursor: pointer; /* Курсор указателя при наведении */
+  transition: transform 0.3s ease; /* Плавная анимация при наведении */
+}
+
+.captcha-container .images img:hover {
+  transform: scale(1.1); /* Увеличение изображения при наведении */
+  border-color: #0400ff; /* Изменение цвета рамки при наведении */
+}
+
+.captcha-container .images img.selected {
+  border-color: #00ff00; /* Зеленая рамка для выбранных изображений */
+  box-shadow: 0 0 10px #00ff00; /* Тень для выбранных изображений */
+}
+
 .slider-container {
   position: relative;
   max-width: 600px;
@@ -37,18 +58,6 @@ body {
 }
 
 
-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
 button.prev {
   left: 10px;
 }
@@ -60,3 +69,10 @@ button.next {
 button:hover {
   background-color: #a200ff;
 }
+
+.captcha-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрирование элементов по горизонтали */
+}
+
