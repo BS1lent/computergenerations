@@ -1,62 +1,76 @@
 body {
-  font-family: 'Comic Sans MS', cursive;
-  background: linear-gradient(to right, #ff7300, #ff00b3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6f00ff, #00ffdd);
+  padding: 20px;
 }
 
-.slider-container {
-  position: relative;
-  max-width: 600px;
+#form-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 500px;
   margin: auto;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.slider {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.slide {
-  min-width: 100%;
-  box-sizing: border-box;
+h2, h3 {
   text-align: center;
+  color: #333;
 }
 
-.slide img {
+label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+input, textarea {
   width: 100%;
-  height: auto; 
-  max-height: 500px; 
-  object-fit: contain; 
-  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
-
 
 button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #23a842;
   color: white;
-  border: none;
+  border: 1px solid;
   padding: 10px;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 50%;
-}
-
-button.prev {
-  left: 10px;
-}
-
-button.next {
-  right: 10px;
+  width: 100%;
 }
 
 button:hover {
-  background-color: #a200ff;
+  background-color: #00ff37;
+}
+
+.hidden {
+  display: none;
+}
+
+
+#translated-output {
+  margin-top: 20px;
+  font-family: Arial, sans-serif; /* Устанавливаем шрифт */
+  line-height: 1.6; /* Увеличиваем межстрочный интервал */
+  border: 1px solid #ddd; /* Добавляем рамку */
+  padding: 15px; /* Добавляем отступы */
+  border-radius: 5px; /* Закругляем углы */
+  background-color: #f9f9f9; /* Устанавливаем цвет фона */
+}
+
+.original {
+  color: gray; /* Цвет оригинального текста */
+  text-decoration: line-through; /* Зачеркиваем оригинальный текст */
+}
+
+.translated {
+  color: black; /* Цвет переведенного текста */
+  font-weight: bold; /* Делаем текст жирным */
+}
+
+.arrow {
+  color: #333; /* Цвет стрелки */
+  font-weight: normal; /* Стрелка не жирная */
 }

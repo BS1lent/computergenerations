@@ -1,38 +1,57 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Слайдер примеров ЭВМ</title>
-  <link rel="stylesheet" href="styles/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета для трудоустройства</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-  <div class="slider-container">
-    <div class="slider">
-      <div class="slide">
-        <img src="images/eniac.jpeg" alt="ENIAC">
-        <p>ENIAC - Первое поколение</p>
-      </div>
-      <div class="slide">
-        <img src="images/ibm1401.jpg" alt="IBM 1401">
-        <p>IBM 1401 - Второе поколение</p>
-      </div>
-      <div class="slide">
-        <img src="images/ibm360.jpg" alt="IBM 360">
-        <p>IBM 360 - Третье поколение</p>
-      </div>
-      <div class="slide">
-        <img src="images/appleii.jpg" alt="Apple II">
-        <p>Apple II - Четвертое поколение</p>
-      </div>
-      <div class="slide">
-        <img src="images/ibm_pc_at.jpg" alt="IBM PC/AT">
-        <p>IBM PC/AT - Пятое поколение</p>
-      </div>
+    <div id="form-container">
+        <h2>Анкета для трудоустройства</h2>
+        <form id="employment-form">
+            <label for="fullName">ФИО:</label>
+            <input type="text" id="fullName" required>
+
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" required>
+
+            <label for="phone">Телефон:</label>
+            <input type="tel" id="phone" required>
+
+            <label for="position">Должность:</label>
+            <input type="text" id="position" required>
+
+            <label for="experience">Опыт работы (лет):</label>
+            <input type="number" id="experience" required>
+
+            <label for="education">Образование:</label>
+            <input type="text" id="education" required>
+
+            <label for="skills">Навыки:</label>
+            <textarea id="skills" required></textarea>
+
+            <label for="language">Знание языков:</label>
+            <input type="text" id="language" required>
+
+            <label for="references">Рекомендации:</label>
+            <textarea id="references" required></textarea>
+
+            <button type="submit" id="submit-btn">Подтвердить данные</button>
+        </form>
+        <div id="confirmation" class="hidden">
+            <h3>Подтверждение данных</h3>
+            <div id="translated-output"></div>
+
+<style>
+
+</style>
+
+            <button id="confirm-btn">Подтвердить данные</button>
+            <button id="back-btn">Назад</button>
+        </div>
+        <div id="notification" class="hidden"></div>
     </div>
-    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-    <button class="next" onclick="moveSlide(1)">&#10095;</button>
-  </div>
-  <script src="scripts/script.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
