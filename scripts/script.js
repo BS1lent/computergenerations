@@ -1,6 +1,7 @@
 document.getElementById('employment-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const fullName = document.getElementById('fullName').value.trim();
+    const birthDate = document.getElementById('birthDate').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const position = document.getElementById('position').value.trim();
@@ -33,6 +34,7 @@ document.getElementById('employment-form').addEventListener('submit', function(e
     // Перевод данных
     const translatedData = {
         fullName: transliterate(fullName),
+        birthDate: transliterate(birthDate),
         email: transliterate(email),
         phone: transliterate(phone),
         position: transliterate(position),
@@ -46,10 +48,11 @@ document.getElementById('employment-form').addEventListener('submit', function(e
     const translatedOutput = document.getElementById('translated-output');
     translatedOutput.innerHTML = `
         <p><strong>ФИО:</strong> <span class="original">${fullName}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.fullName}</span></p>
-        <p><strong>Электронная почта:</strong> <span class="translated">${translatedData.email}</span></p>
-        <p><strong>Телефон:</strong> <span class="translated">${translatedData.phone}</span></p>
+        <p><strong>Дата рождения:</strong> <span class="translated">${birthDate}</span></p>
+        <p><strong>Электронная почта:</strong> <span class="translated">${email}</span></p>
+        <p><strong>Телефон:</strong> <span class="translated">${phone}</span></p>
         <p><strong>Должность:</strong> <span class="original">${position}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.position}</span></p>
-        <p><strong>Опыт работы:</strong> <span class="translated">${translatedData.experience}</span></p>
+        <p><strong>Опыт работы:</strong> <span class="translated">${experience}</span></p>
         <p><strong>Образование:</strong> <span class="original">${education}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.education}</span></p>
         <p><strong>Навыки:</strong> <span class="original">${skills}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.skills}</span></p>
         <p><strong>Знание языков:</strong> <span class="original">${language}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.language}</span></p>

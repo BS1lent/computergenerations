@@ -25,10 +25,13 @@ label {
 
 input, textarea {
   width: 100%;
+  max-width: 100%; /* Устанавливаем максимальную ширину */
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box; /* Учитываем границы и отступы в ширине */
+  resize: none; /* Запрещаем изменение размера */
 }
 
 button {
@@ -39,6 +42,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
+  box-sizing: border-box; /* Учитываем границы и отступы в ширине */
 }
 
 button:hover {
@@ -49,28 +53,27 @@ button:hover {
   display: none;
 }
 
-
 #translated-output {
   margin-top: 20px;
-  font-family: Arial, sans-serif; /* Устанавливаем шрифт */
-  line-height: 1.6; /* Увеличиваем межстрочный интервал */
-  border: 1px solid #ddd; /* Добавляем рамку */
-  padding: 15px; /* Добавляем отступы */
-  border-radius: 5px; /* Закругляем углы */
-  background-color: #f9f9f9; /* Устанавливаем цвет фона */
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .original {
-  color: gray; /* Цвет оригинального текста */
-  text-decoration: line-through; /* Зачеркиваем оригинальный текст */
+  color: gray;
+  text-decoration: line-through;
 }
 
 .translated {
-  color: black; /* Цвет переведенного текста */
-  font-weight: bold; /* Делаем текст жирным */
+  color: black;
+  font-weight: bold;
 }
 
 .arrow {
-  color: #333; /* Цвет стрелки */
-  font-weight: normal; /* Стрелка не жирная */
+  color: #333;
+  font-weight: normal;
 }
