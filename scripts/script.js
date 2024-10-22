@@ -11,18 +11,35 @@ document.getElementById('employment-form').addEventListener('submit', function(e
     const language = document.getElementById('language').value.trim();
     const references = document.getElementById('references').value.trim();
 
-    const phonePattern = /^[+]?[0-9\s()-]{7,15}$/;
+    const birthDatePattern = /^(19[4-9][0-9]|200[0-9]|2010)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;    
+    const fullnamePattern = /^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+$/; // ФИО: Имя Отчество Фамилия
+    const phonePattern = /^\+\d{11}$/;
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+    if (!birthDatePattern.test(birthDate)) {
+        createCaptcha();
+       alert('Некорректная Дата рождения.\n');
+        return;
+    }
+
+    if (!fullnamePattern.test(fullName)) {
+        createCaptcha();
+       alert('Некорректное ФИО. Убедитесь, что оно введено в формате: Имя Отчество Фамилия.\n');
+        return;
+    }
+
     if (!phonePattern.test(phone)) {
+        createCaptcha();
         alert('Неверный формат телефона');
         return;
     }
     if (!emailPattern.test(email)) {
+        createCaptcha();
         alert('Неверный формат электронной почты');
         return;
     }
     if (experience < 0) {
+        createCaptcha();
         alert('Опыт работы не может быть отрицательным');
         return;
     }
@@ -115,4 +132,151 @@ function transliterate(text) {
     };
 
     return text.split('').map(char => translitMap[char] || char).join('');
+}
+
+
+
+
+
+// Массив с изображениями
+const images = [
+    'images/image1.jpg', // Например, это правильное изображение
+    'images/image2.jpg',
+    'images/image3.jpg',
+    'images/image4.jpg',
+    'images/image5.jpg',
+    'images/image6.jpg'
+];
+
+// Укажите индекс правильного изображения (например, 4 для 'image5.jpg')
+const correctImageIndex = 4; // Задайте здесь индекс правильного изображения
+let shuffledImages = [];
+let attempts = 0; // Счетчик попыток
+const maxAttempts = 5; // Максимальное количество попыток
+
+// Функция для создания капчи
+function createCaptcha() {
+    // Скрываем основной контент
+    const mainContent = document.getElementById('form-container');
+    if (mainContent) {
+        mainContent.style.display = 'none';
+    }
+
+    // Удаляем предыдущую капчу, если она существует 
+    const existingCaptchaContainer = document.getElementById('captcha-container');
+    if (existingCaptchaContainer) {
+        existingCaptchaContainer.remove();
+    }
+
+    // Создаем новый контейнер для капчи
+    const captchaContainer = document.createElement('div');
+    captchaContainer.id = 'captcha-container';
+    captchaContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; // Темный фон
+    captchaContainer.style.color = 'white';
+    captchaContainer.style.display = 'flex';
+    captchaContainer.style.flexDirection = 'column';
+    captchaContainer.style.alignItems = 'center';
+    captchaContainer.style.justifyContent = 'center';
+    captchaContainer.style.height = '100vh';
+    document.body.appendChild(captchaContainer);
+
+    const title = document.createElement('h2');
+    title.textContent = 'Выберите изображение где не изображена собака:';
+    captchaContainer.appendChild(title);
+
+    // Перемешиваем изображения 
+    shuffledImages = shuffleArray([...images]);
+
+    // Находим индекс правильного изображения в перемешанном массиве 
+    const correctImage = images[correctImageIndex];
+    const correctImageNewIndex = shuffledImages.indexOf(correctImage);
+
+    const imagesContainer = document.createElement('div');
+    imagesContainer.style.display = 'flex';
+    imagesContainer.style.flexWrap = 'wrap';
+    imagesContainer.style.justifyContent = 'center';
+
+    shuffledImages.forEach((image, index) => {
+        const imgElement = document.createElement('img');
+        imgElement.src = image;
+        imgElement.alt = 'Картинка';
+        imgElement.style.width = '100px';
+        imgElement.style.height = '100px';
+        imgElement.style.margin = '10px';
+        imgElement.style.cursor = 'pointer';
+        imgElement.style.border = '2px solid transparent';
+
+        imgElement.addEventListener('mouseover', () => {
+            imgElement.style.border = '2px solid yellow';
+        });
+
+        imgElement.addEventListener('mouseout', () => {
+            imgElement.style.border = '2px solid transparent';
+        });
+
+        imgElement.addEventListener('click', () => checkAnswer(index, correctImageNewIndex));
+
+        imagesContainer.appendChild(imgElement);
+    });
+
+    captchaContainer.appendChild(imagesContainer);
+    const message = document.createElement('div');
+    message.id = 'message';
+    captchaContainer.appendChild(message);
+}
+
+// Функция для проверки ответа
+function checkAnswer(selectedIndex, correctImageIndex) {
+    const message = document.getElementById('message');
+    attempts++; // Увеличиваем счетчик попыток
+
+    if (selectedIndex === correctImageIndex) {
+        disableCaptcha()
+        message.textContent = 'Правильно!';
+        message.style.color = 'green';
+
+        // Удаляем капчу через 1 секунду
+        setTimeout(() => {
+            const captchaContainer = document.getElementById('captcha-container');
+            if (captchaContainer) {
+                captchaContainer.style.display = 'none'; // Скрываем капчу 
+                }
+            const mainContent = document.getElementById('form-container');
+            if (mainContent) {
+                mainContent.style.display = 'block'; // Показываем основной контент
+            }
+        }, 500);
+    } else {
+        message.textContent = 'Неправильно, попробуйте снова.';
+        message.style.color = 'red';
+        disableCaptcha()
+        // Если превышено максимальное количество попыток
+        if (attempts >= maxAttempts) {
+            message.textContent = 'Вы исчерпали все попытки. Пожалуйста, обновите страницу для новой капчи.';
+            message.style.color = 'black';
+            disableCaptcha(); // Отключаем капчу
+        } else {
+            // Обновляем капчу 
+            setTimeout(() => {
+                createCaptcha();
+            }, 2000); // Задержка перед обновлением капчи
+        }
+    }
+}
+
+// Функция для отключения капчи
+function disableCaptcha() {
+    const captchaContainer = document.getElementById('captcha-container');
+    if (captchaContainer) {
+        captchaContainer.style.pointerEvents = 'none'; // Блокируем взаимодействие
+    }
+}
+
+// Функция для перемешивания массива
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Меняем местами
+    }
+    return array;
 }
