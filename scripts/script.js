@@ -1,5 +1,7 @@
-document.getElementById('employment-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById('submit-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+    // Получаем значения из формы
     const fullName = document.getElementById('fullName').value.trim();
     const birthDate = document.getElementById('birthDate').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -9,22 +11,23 @@ document.getElementById('employment-form').addEventListener('submit', function(e
     const education = document.getElementById('education').value.trim();
     const skills = document.getElementById('skills').value.trim();
     const language = document.getElementById('language').value.trim();
-    const references = document.getElementById('references').value.trim();
+    const recommendations = document.getElementById('recommendations').value.trim();
 
+    // Валидация данных
     const birthDatePattern = /^(19[4-9][0-9]|200[0-9]|2010)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;    
-    const fullnamePattern = /^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+$/; // ФИО: Имя Отчество Фамилия
+    const fullnamePattern = /^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+$/;
     const phonePattern = /^\+\d{11}$/;
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!birthDatePattern.test(birthDate)) {
         createCaptcha();
-       alert('Некорректная Дата рождения.\n');
+        alert('Некорректная Дата рождения.\n');
         return;
     }
 
     if (!fullnamePattern.test(fullName)) {
         createCaptcha();
-       alert('Некорректное ФИО. Убедитесь, что оно введено в формате: Имя Отчество Фамилия.\n');
+        alert('Некорректное ФИО. Убедитесь, что оно введено в формате: Имя Отчество Фамилия.\n');
         return;
     }
 
@@ -59,7 +62,7 @@ document.getElementById('employment-form').addEventListener('submit', function(e
         education: transliterate(education),
         skills: transliterate(skills),
         language: transliterate(language),
-        references: transliterate(references)
+        recommendations: transliterate(recommendations)
     };
 
     const translatedOutput = document.getElementById('translated-output');
@@ -73,20 +76,64 @@ document.getElementById('employment-form').addEventListener('submit', function(e
         <p><strong>Образование:</strong> <span class="original">${education}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.education}</span></p>
         <p><strong>Навыки:</strong> <span class="original">${skills}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.skills}</span></p>
         <p><strong>Знание языков:</strong> <span class="original">${language}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.language}</span></p>
-        <p><strong>Рекомендации:</strong> <span class="original">${references}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.references}</span></p>
+        <p><strong>Рекомендации:</strong> <span class="original">${recommendations}</span> <span class="arrow">=> </span> <span class="translated">${translatedData.recommendations}</span></p>
     `;
-});
 
-// Обработчик для кнопки "Подтвердить данные"
-document.getElementById('confirm-btn').addEventListener('click', function() {
-    alert('Данные отправлены');
-    location.reload(); // Перезагрузка страницы для возврата к началу
-});
+    // После подтверждения данных, отправляем их на сервер
+    document.getElementById('confirm-btn').addEventListener('click', function() {
+        // Отправка оригинальных данных
+        fetch('http://localhost:3000/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fullName,
+                birthDate,
+                email,
+                phone,
+                position,
+                experience,
+                education,
+                skills,
+                language,
+                recommendations
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Отправка переведенных данных в другую таблицу 
+                return fetch('http://localhost:3000/translated-submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(translatedData)
+                });
+            } else {
+                alert('Ошибка при отправке оригинальных данных');
+                throw new Error('Ошибка при отправке оригинальных данных');
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Данные успешно отправлены');
+                location.reload(); // Перезагрузка страницы для возврата к началу 
+                } else {
+                alert('Ошибка при отправке переведенных данных');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Ошибка при отправке данных');
+        });
+    });
 
-// Обработчик для кнопки "Назад"
-document.getElementById('back-btn').addEventListener('click', function() {
-    document.getElementById('confirmation').classList.add('hidden');
-    document.getElementById('employment-form').classList.remove('hidden');
+    // Обработчик для кнопки "Назад"
+    document.getElementById('back-btn').addEventListener('click', function() {
+        document.getElementById('confirmation').classList.add('hidden');
+        document.getElementById('employment-form').classList.remove('hidden');
+    });
 });
 
 // Функция для "перевода" кириллицы в латиницу
@@ -133,6 +180,8 @@ function transliterate(text) {
 
     return text.split('').map(char => translitMap[char] || char).join('');
 }
+
+
 
 
 
@@ -264,6 +313,7 @@ function checkAnswer(selectedIndex, correctImageIndex) {
     }
 }
 
+
 // Функция для отключения капчи
 function disableCaptcha() {
     const captchaContainer = document.getElementById('captcha-container');
@@ -280,3 +330,11 @@ function shuffleArray(array) {
     }
     return array;
 }
+
+
+
+
+
+
+
+
